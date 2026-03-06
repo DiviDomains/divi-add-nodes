@@ -1,0 +1,18 @@
+[package]
+name = "divi-add-nodes"
+version = "1.0.0"
+edition = "2021"
+description = "Fetches reachable nodes from the Divi Network Map and adds them to your running Divi node"
+license = "MIT"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+[profile.release]
+strip = true
+lto = true
+opt-level = "z"

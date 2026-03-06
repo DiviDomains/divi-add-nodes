@@ -140,7 +140,13 @@ fn days_to_date(days_since_epoch: u64) -> (u64, u64, u64) {
 async fn main() {
     let cli = Cli::parse();
 
-    let client = reqwest::Client::new();
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .unwrap_or_else(|e| {
+            eprintln!("Error: failed to create HTTP client: {e}");
+            process::exit(1);
+        });
 
     // Fetch reachable nodes
     let nodes = match fetch_nodes(&client, &cli.api).await {
